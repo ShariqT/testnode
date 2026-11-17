@@ -1,6 +1,5 @@
 import { app } from "../../scripts/app.js";
 
-let newStatus = ""
 app.registerExtension({
     name: "example.testnode.update_url",
     async setup(){
@@ -8,11 +7,13 @@ app.registerExtension({
         function messageHandler(event){
             console.log(event.detail.message)
             for(const node of app.graph._nodes){
-                console.log(node)
-                if(node.name == "TestNode") {
-                    for(const widget in node.widgets()){
-                        if(widget.name == "Status"){
-                            widget.setValue(event.detail.message)
+                console.log(node.comfyClass)
+                if(node.comfyClass == "TestNode") {
+                    for(let i = 0; i < node.widgets.length; i++){
+                        console.log(node.widgets[i])
+                        if(node.widgets[i].name == "Status"){
+                            
+                            node.widgets[i].value = event.detail.message
                         }
                     }
                 }
@@ -25,9 +26,12 @@ app.registerExtension({
         app.api.addEventListener("example.testnode.update_url", messageHandler);
     },
     async nodeCreated(node){
-        console.log(node)
         if (node.comfyClass == "TestNode") {
-            node.addWidget("text", "Status", newStatus, function(v){})
+            console.log("loading testnode")
+            node.addWidget("text", "Status", newStatus, function(v){
+                console.log('new value is ' + v)
+            })
+
             node.serialize_widgets = true
         }
     }
