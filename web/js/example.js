@@ -6,7 +6,7 @@ app.registerExtension({
     async setup(){
 
         function messageHandler(event){
-            console.log(`the event is ${event}`)
+            console.log(event.detail.message)
             for(const node of app.graph._nodes){
                 console.log(node)
                 if(node.name == "TestNode") {
@@ -28,6 +28,7 @@ app.registerExtension({
         console.log(node)
         if (node.comfyClass == "TestNode") {
             node.addWidget("text", "Status", newStatus, function(v){})
+            node.serialize_widgets = true
         }
     }
 

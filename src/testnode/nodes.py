@@ -69,6 +69,7 @@ class TestNode:
     def test(self, urls):
         print("inside of the test function")
         PromptServer.instance.send_sync("example.testnode.update_url", {"message":f"First url {urls[0]}"})
+        print("send a issue to prompt server")
         return (urls[0],)
 
     """
